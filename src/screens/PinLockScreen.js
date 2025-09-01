@@ -15,6 +15,7 @@ export default function PinLockScreen({ onUnlock }) {
   const [storedPin, setStoredPin] = useState('');
   const [isSettingPin, setIsSettingPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -23,9 +24,20 @@ export default function PinLockScreen({ onUnlock }) {
   const keypadColor = isDark ? '#2C2C2C' : '#F5F5F5';
 
   useEffect(() => {
-    checkExistingPin();
-    checkBiometrics();
+    initializePinScreen();
   }, []);
+
+  const initializePinScreen = async () => {
+    try {
+      await checkExistingPin();
+      await checkBiometrics();
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error inicializando PIN screen:', error);
+      setIsSettingPin(true);
+      setIsLoading(false);
+    }
+  };
 
   const checkExistingPin = async () => {
     try {

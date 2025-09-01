@@ -95,24 +95,37 @@ function TabNavigator() {
 
 function AppContent() {
   const { settings } = useFinance();
-  const [isUnlocked, setIsUnlocked] = useState(null); // null inicialmente
-  const [showOnboarding, setShowOnboarding] = useState(settings.firstTimeUser);
+  const [isUnlocked, setIsUnlocked] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Inicializar el estado de desbloqueo una vez que tenemos settings
+  // Inicializar estados una vez que tenemos settings cargados
   useEffect(() => {
-    if (settings && typeof settings.pinEnabled === 'boolean') {
+    if (settings && typeof settings.pinEnabled === 'boolean' && typeof settings.firstTimeUser === 'boolean') {
+      setIsUnlocked(!settings.pinEnabled);
+      setShowOnboarding(settings.firstTimeUser);
+      setIsLoading(false);
+    }
+  }, [settings]);
+
+  // Manejar cambios en pinEnabled después de la inicialización
+  useEffect(() => {
+    if (!isLoading && settings && typeof settings.pinEnabled === 'boolean') {
       setIsUnlocked(!settings.pinEnabled);
     }
-  }, [settings.pinEnabled]);
+  }, [settings.pinEnabled, isLoading]);
 
+  // Manejar cambios en firstTimeUser después de la inicialización
   useEffect(() => {
-    setShowOnboarding(settings.firstTimeUser);
-  }, [settings.firstTimeUser]);
+    if (!isLoading && settings && typeof settings.firstTimeUser === 'boolean') {
+      setShowOnboarding(settings.firstTimeUser);
+    }
+  }, [settings.firstTimeUser, isLoading]);
 
-  // Si aún estamos cargando la configuración, mostrar loading
-  if (isUnlocked === null) {
+  // Mostrar loading mientras cargamos la configuración
+  if (isLoading || isUnlocked === null || showOnboarding === null) {
     return (
       <View style={{
         flex: 1,
@@ -120,7 +133,7 @@ function AppContent() {
         alignItems: 'center',
         backgroundColor: isDark ? '#121212' : '#F5F5F5'
       }}>
-        <Text style={{ color: isDark ? '#FFFFFF' : '#000000' }}>Cargando...</Text>
+        <Text style={{ color: isDark ? '#FFFFFF' : '#000000', fontSize: 16 }}>Cargando FinanzaLite...</Text>
       </View>
     );
   }

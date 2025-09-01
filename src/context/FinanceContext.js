@@ -109,18 +109,27 @@ export function FinanceProvider({ children }) {
       const categories = await AsyncStorage.getItem('categories');
       const settings = await AsyncStorage.getItem('settings');
 
-      if (transactions || categories || settings) {
-        dispatch({
-          type: 'SET_INITIAL_DATA',
-          payload: {
-            transactions: transactions ? JSON.parse(transactions) : [],
-            categories: categories ? JSON.parse(categories) : initialState.categories,
-            settings: settings ? JSON.parse(settings) : initialState.settings,
-          }
-        });
-      }
+      const loadedData = {
+        transactions: transactions ? JSON.parse(transactions) : [],
+        categories: categories ? JSON.parse(categories) : initialState.categories,
+        settings: settings ? JSON.parse(settings) : initialState.settings,
+      };
+
+      dispatch({
+        type: 'SET_INITIAL_DATA',
+        payload: loadedData
+      });
     } catch (error) {
       console.error('Error cargando datos:', error);
+      // En caso de error, usar datos iniciales
+      dispatch({
+        type: 'SET_INITIAL_DATA',
+        payload: {
+          transactions: [],
+          categories: initialState.categories,
+          settings: initialState.settings,
+        }
+      });
     }
   };
 

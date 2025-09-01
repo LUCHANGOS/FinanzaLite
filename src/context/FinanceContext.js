@@ -22,7 +22,7 @@ const initialState = {
     notificationsEnabled: true,
     darkMode: 'auto',
     currency: 'CLP',
-    firstTimeUser: true,
+    firstTimeUser: false,
   },
   currentMonth: dayjs().format('YYYY-MM'),
 };

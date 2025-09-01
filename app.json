@@ -23,26 +23,25 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.finanzalite.app"
+      "package": "com.finanzalite.app",
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-secure-store",
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/notification-icon.png",
-          "color": "#ffffff"
-        }
-      ],
+      "expo-notifications",
       "expo-local-authentication"
     ],
     "extra": {
       "eas": {
-        "projectId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        "projectId": "8dc7956d-7e2e-46b0-8576-ada38900ce9c"
       }
-    }
+    },
+    "owner": "luchango"
   }
 }

@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useColorScheme, Text } from 'react-native';
+import { useColorScheme, Text, View } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
@@ -95,18 +95,35 @@ function TabNavigator() {
 
 function AppContent() {
   const { settings } = useFinance();
-  const [isUnlocked, setIsUnlocked] = useState(!settings.pinEnabled);
+  const [isUnlocked, setIsUnlocked] = useState(null); // null inicialmente
   const [showOnboarding, setShowOnboarding] = useState(settings.firstTimeUser);
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
+  // Inicializar el estado de desbloqueo una vez que tenemos settings
   useEffect(() => {
-    setIsUnlocked(!settings.pinEnabled);
+    if (settings && typeof settings.pinEnabled === 'boolean') {
+      setIsUnlocked(!settings.pinEnabled);
+    }
   }, [settings.pinEnabled]);
 
   useEffect(() => {
     setShowOnboarding(settings.firstTimeUser);
   }, [settings.firstTimeUser]);
+
+  // Si aún estamos cargando la configuración, mostrar loading
+  if (isUnlocked === null) {
+    return (
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: isDark ? '#121212' : '#F5F5F5'
+      }}>
+        <Text style={{ color: isDark ? '#FFFFFF' : '#000000' }}>Cargando...</Text>
+      </View>
+    );
+  }
 
   const screenOptions = {
     headerStyle: {

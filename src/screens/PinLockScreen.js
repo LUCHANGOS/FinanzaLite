@@ -32,11 +32,14 @@ export default function PinLockScreen({ onUnlock }) {
       const savedPin = await SecureStore.getItemAsync('user_pin');
       if (savedPin) {
         setStoredPin(savedPin);
+        setIsSettingPin(false);
       } else {
         setIsSettingPin(true);
       }
     } catch (error) {
       console.error('Error verificando PIN:', error);
+      // En caso de error, asumir que no hay PIN y permitir configurar uno nuevo
+      setIsSettingPin(true);
     }
   };
 

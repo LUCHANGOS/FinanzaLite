@@ -1,66 +1,157 @@
-# FinanzaLite 💰
+# FinanzaLite v2.0 ✨
+**by L.A.N.G.**
 
-Una aplicación móvil de organización económica mensual construida con React Native y Expo SDK 53.
+> Una aplicación móvil moderna y elegante para el control de finanzas personales, completamente rediseñada con gradientes, animaciones fluidas y un sistema de temas avanzado.
 
-## Características ✨
+![FinanzaLite Logo](./assets/icon.png)
 
-- **Registro de ingresos**: Sueldo, bonos, quincenas y otras fuentes
-- **Control de gastos**: Categorización de gastos fijos y variables
-- **Categorías personalizables**: Crear, editar y eliminar categorías
-- **Resumen mensual**: Balance de ingresos vs gastos con gráficos
-- **Vista quincenal**: Análisis por quincenas
-- **Recordatorios**: Notificaciones para revisar finanzas
-- **Exportación CSV**: Exportar movimientos usando expo-file-system + expo-sharing
-- **Seguridad**: Bloqueo opcional con PIN y autenticación biométrica
-- **Onboarding**: Tutorial inicial para nuevos usuarios
-- **Modo oscuro**: Soporte automático según configuración del dispositivo
+## 🎨 **Novedades v2.0 - Diseño Renovado**
 
-## Tecnologías 🛠️
+### ✨ **Mejoras Visuales**
+- 🌈 **Gradientes dinámicos** en cards y botones
+- 🎭 **Animaciones fluidas** con transiciones naturales
+- 📱 **Feedback háptico** en cada interacción
+- 🎯 **Iconos SVG vectoriales** personalizados
+- 🌙 **Temas claro/oscuro** optimizados
+- 💎 **Componentes modernos** reutilizables
 
-- **Expo SDK**: 53.0.0
-- **React**: 18.3.1
-- **React Native**: 0.76.5
-- **React Navigation**: Navegación con tabs y stack
-- **AsyncStorage**: Persistencia de datos local
-- **Expo Secure Store**: Almacenamiento seguro para PIN
+### 🚀 **Características Principales**
+
+#### 💰 **Gestión Financiera Completa**
+- ✅ **Registro inteligente** de ingresos y gastos
+- ✅ **Categorías personalizables** con 16+ iconos y colores
+- ✅ **Balance en tiempo real** con indicadores visuales
+- ✅ **Análisis mensual y quincenal** detallado
+- ✅ **Top categorías** con rankings automáticos
+
+#### 📊 **Visualización Avanzada**
+- ✅ **Gráficos con gradientes** animados y responsivos
+- ✅ **Dashboard interactivo** con métricas clave
+- ✅ **Cards con sombras** y efectos de profundidad
+- ✅ **Animaciones escalonadas** para mejor UX
+- ✅ **Transiciones suaves** entre pantallas
+
+#### 🔐 **Seguridad y Privacidad**
+- ✅ **PIN personalizable** con bloqueo automático
+- ✅ **Autenticación biométrica** (huella digital/FaceID)
+- ✅ **Almacenamiento local** sin dependencias externas
+- ✅ **Cifrado de datos** sensibles
+
+#### 🎯 **Experiencia de Usuario**
+- ✅ **Tutorial interactivo** con gradientes dinámicos
+- ✅ **Navegación fluida** con iconos animados
+- ✅ **Notificaciones inteligentes** programables
+- ✅ **Exportación CSV** para análisis externo
+- ✅ **Interfaz responsive** y adaptable
+
+## 🛠️ **Stack Tecnológico**
+
+### 📱 **Frontend & UI**
+- **Expo SDK**: 51.0.39
+- **React**: 18.2.0
+- **React Native**: 0.74.5
+- **React Navigation**: 6.x (Stack + Bottom Tabs)
+- **React Native Animatable**: Animaciones fluidas
+- **Expo Linear Gradient**: Gradientes nativos
+
+### 🎨 **Diseño & Gráficos**
+- **React Native SVG**: Gráficos vectoriales personalizados
+- **Sistema de temas**: Colores y espaciado centralizados
+- **Expo Haptics**: Retroalimentación táctil
+- **Iconos SVG**: Biblioteca personalizada
+
+### 💾 **Almacenamiento & Datos**
+- **AsyncStorage**: Persistencia de transacciones y configuración
+- **Expo Secure Store**: Almacenamiento cifrado para PIN
+- **Day.js**: Manejo optimizado de fechas
+
+### 🔔 **Funcionalidades Nativas**
 - **Expo Notifications**: Sistema de recordatorios
-- **React Native SVG**: Gráficos personalizados
-- **Day.js**: Manejo de fechas
+- **Expo Local Authentication**: Biometría nativa
+- **Expo File System + Sharing**: Exportación y compartición
 
-## Instalación 🚀
+## 🚀 **Instalación y Desarrollo**
 
-1. Clona o descarga el proyecto
-2. Instala las dependencias:
+### 📱 **Desarrollo Local**
+1. **Clona el repositorio**:
+   ```bash
+   git clone <repository-url>
+   cd FinanzaLite
+   ```
+
+2. **Instala las dependencias**:
    ```bash
    npm install
    ```
-3. Inicia el proyecto:
+
+3. **Inicia el servidor de desarrollo**:
    ```bash
+   # Para Expo Go (recomendado para desarrollo)
+   npx expo start
+   
+   # Con túnel (si tienes problemas de red)
    npx expo start --tunnel
    ```
-4. Escanea el código QR con Expo Go (SDK 53)
+
+4. **Prueba en tu dispositivo**:
+   - Descarga **Expo Go** desde tu store
+   - Escanea el código QR generado
+   - ¡Disfruta probando la app!
+
+### 📲 **Compilación de APK**
+
+1. **Configurar EAS Build** (primera vez):
+   ```bash
+   npm install -g @expo/cli
+   npx expo install --fix
+   ```
+
+2. **Compilar APK para Android**:
+   ```bash
+   # APK de desarrollo
+   npx expo build:android --type=apk
+   
+   # O usando EAS Build (recomendado)
+   npx eas build --platform android --profile development
+   ```
+
+3. **APK de producción**:
+   ```bash
+   npx eas build --platform android --profile production
+   ```
 
 ## Estructura del proyecto 📁
 
 ```
 FinanzaLite/
 ├── App.js                              # Componente principal con navegación
+├── app.json                            # Configuración de Expo
+├── package.json                        # Dependencias y scripts
 ├── src/
+│   ├── constants/
+│   │   └── Theme.js                   # ✨ Sistema de temas y colores
 │   ├── context/
 │   │   └── FinanceContext.js          # Context para estado global
-│   ├── screens/
-│   │   ├── DashboardScreen.js         # Pantalla principal con resumen
-│   │   ├── TransactionsScreen.js      # Lista de movimientos
-│   │   ├── AddEditTransactionScreen.js # Formulario de transacciones
-│   │   ├── CategoriesScreen.js        # Gestión de categorías
-│   │   ├── SettingsScreen.js          # Configuraciones
-│   │   ├── PinLockScreen.js           # Pantalla de bloqueo
-│   │   └── OnboardingScreen.js        # Tutorial inicial
-│   └── components/
-│       ├── TransactionItem.js         # Item de transacción
-│       └── BarChart.js               # Gráfico de barras SVG
-├── assets/                            # Imágenes e iconos
-└── package.json                       # Dependencias del proyecto
+│   ├── components/                     # 💫 Componentes reutilizables
+│   │   ├── Card.js                    # ✨ Card con gradientes y sombras
+│   │   ├── Button.js                  # ✨ Botón con animaciones y haptics
+│   │   ├── Icon.js                    # ✨ Iconos SVG personalizados
+│   │   ├── Loading.js                 # ✨ Pantalla de carga animada
+│   │   ├── TransactionItem.js         # ✨ Item de transacción mejorado
+│   │   └── BarChart.js               # ✨ Gráfico con gradientes
+│   └── screens/                        # 📱 Pantallas de la aplicación
+│       ├── DashboardScreen.js         # ✨ Dashboard completamente renovado
+│       ├── TransactionsScreen.js      # Lista de movimientos
+│       ├── AddEditTransactionScreen.js # Formulario de transacciones
+│       ├── CategoriesScreen.js        # Gestión de categorías
+│       ├── SettingsScreen.js          # Configuraciones
+│       ├── PinLockScreen.js           # Pantalla de bloqueo
+│       └── OnboardingScreen.js        # ✨ Tutorial con gradientes
+└── assets/                            # Imágenes, iconos y recursos
+    ├── icon.png                       # Icono principal de la app
+    ├── adaptive-icon.png              # Icono adaptativo Android
+    ├── splash.png                     # Pantalla de carga
+    └── notification-icon.png          # Icono para notificaciones
 ```
 
 ## Uso 📱

@@ -18,6 +18,9 @@ import { getTheme, Colors } from './src/constants/Theme';
 import Icon from './src/components/Icon';
 
 import { FinanceProvider, useFinance } from './src/context/FinanceContext';
+import { SavingsProvider } from './src/context/SavingsContext';
+import { AuthProvider } from './src/context/AuthContext.simple';
+import { DocumentsProvider } from './src/context/DocumentsContext.simple';
 import DashboardScreen from './src/screens/DashboardScreen';
 import TransactionsScreen from './src/screens/TransactionsScreen';
 import AddEditTransactionScreen from './src/screens/AddEditTransactionScreen';
@@ -25,6 +28,11 @@ import CategoriesScreen from './src/screens/CategoriesScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import PinLockScreen from './src/screens/PinLockScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
+import SavingsScreen from './src/screens/SavingsScreen';
+import AddSavingsGoalScreen from './src/screens/AddSavingsGoalScreen';
+import AddSavingsScreen from './src/screens/AddSavingsScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
 
 // Configurar el comportamiento de las notificaciones
 Notifications.setNotificationHandler({
@@ -92,6 +100,18 @@ function TabNavigator() {
           tabBarIcon: ({ color, focused }) => (
             <Animatable.View animation={focused ? 'bounceIn' : undefined} duration={300}>
               <Icon name="transactions" size={24} color={color} />
+            </Animatable.View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Savings"
+        component={SavingsScreen}
+        options={{
+          title: 'Ahorros',
+          tabBarIcon: ({ color, focused }) => (
+            <Animatable.View animation={focused ? 'bounceIn' : undefined} duration={300}>
+              <Icon name="chart" size={24} color={color} />
             </Animatable.View>
           ),
         }}
@@ -227,6 +247,38 @@ function AppContent() {
           presentation: 'modal',
         }}
       />
+      <Stack.Screen
+        name="AddSavingsGoal"
+        component={AddSavingsGoalScreen}
+        options={{
+          title: 'Nueva Meta',
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
+        name="AddSavings"
+        component={AddSavingsScreen}
+        options={{
+          title: 'Agregar Ahorro',
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          title: 'Iniciar Sesión',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          title: 'Registrarse',
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -235,11 +287,17 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   return (
-    <FinanceProvider>
-      <NavigationContainer>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-        <AppContent />
-      </NavigationContainer>
-    </FinanceProvider>
+    <AuthProvider>
+      <FinanceProvider>
+        <SavingsProvider>
+          <DocumentsProvider>
+            <NavigationContainer>
+              <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+              <AppContent />
+            </NavigationContainer>
+          </DocumentsProvider>
+        </SavingsProvider>
+      </FinanceProvider>
+    </AuthProvider>
   );
 }

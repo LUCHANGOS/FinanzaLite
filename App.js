@@ -4,12 +4,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useColorScheme, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Notifications from 'expo-notifications';
+import * as Animatable from 'react-native-animatable';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 
 // Configurar dayjs en español
 dayjs.locale('es');
+
+// Importar sistema de temas
+import { getTheme, Colors } from './src/constants/Theme';
+import Icon from './src/components/Icon';
 
 import { FinanceProvider, useFinance } from './src/context/FinanceContext';
 import DashboardScreen from './src/screens/DashboardScreen';
@@ -34,24 +40,33 @@ const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const theme = getTheme(colorScheme === 'dark');
 
   const tabBarOptions = {
     tabBarStyle: {
-      backgroundColor: isDark ? '#2C2C2C' : '#FFFFFF',
-      borderTopColor: isDark ? '#444' : '#E0E0E0',
-      height: 60,
-      paddingBottom: 8,
+      backgroundColor: theme.colors.surface,
+      borderTopColor: theme.colors.border,
+      height: 70,
+      paddingBottom: 12,
       paddingTop: 8,
+      borderTopWidth: 0,
+      ...theme.shadows.lg,
     },
-    tabBarActiveTintColor: '#2196F3',
-    tabBarInactiveTintColor: isDark ? '#888' : '#666',
+    tabBarActiveTintColor: Colors.primary,
+    tabBarInactiveTintColor: theme.colors.textTertiary,
+    tabBarLabelStyle: {
+      fontSize: 12,
+      fontWeight: '600',
+      marginTop: 4,
+    },
     headerStyle: {
-      backgroundColor: isDark ? '#2C2C2C' : '#FFFFFF',
+      backgroundColor: theme.colors.surface,
+      ...theme.shadows.sm,
     },
-    headerTintColor: isDark ? '#FFFFFF' : '#000000',
+    headerTintColor: theme.colors.text,
     headerTitleStyle: {
       fontWeight: 'bold',
+      fontSize: 18,
     },
   };
 
@@ -62,7 +77,11 @@ function TabNavigator() {
         component={DashboardScreen}
         options={{
           title: 'Resumen',
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 24 }}>📊</Text>,
+          tabBarIcon: ({ color, focused }) => (
+            <Animatable.View animation={focused ? 'bounceIn' : undefined} duration={300}>
+              <Icon name="dashboard" size={24} color={color} />
+            </Animatable.View>
+          ),
         }}
       />
       <Tab.Screen
@@ -70,7 +89,11 @@ function TabNavigator() {
         component={TransactionsScreen}
         options={{
           title: 'Movimientos',
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 24 }}>💳</Text>,
+          tabBarIcon: ({ color, focused }) => (
+            <Animatable.View animation={focused ? 'bounceIn' : undefined} duration={300}>
+              <Icon name="transactions" size={24} color={color} />
+            </Animatable.View>
+          ),
         }}
       />
       <Tab.Screen
@@ -78,7 +101,11 @@ function TabNavigator() {
         component={CategoriesScreen}
         options={{
           title: 'Categorías',
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 24 }}>🏷️</Text>,
+          tabBarIcon: ({ color, focused }) => (
+            <Animatable.View animation={focused ? 'bounceIn' : undefined} duration={300}>
+              <Icon name="categories" size={24} color={color} />
+            </Animatable.View>
+          ),
         }}
       />
       <Tab.Screen
@@ -86,7 +113,11 @@ function TabNavigator() {
         component={SettingsScreen}
         options={{
           title: 'Ajustes',
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 24 }}>⚙️</Text>,
+          tabBarIcon: ({ color, focused }) => (
+            <Animatable.View animation={focused ? 'bounceIn' : undefined} duration={300}>
+              <Icon name="settings" size={24} color={color} />
+            </Animatable.View>
+          ),
         }}
       />
     </Tab.Navigator>
@@ -126,15 +157,37 @@ function AppContent() {
 
   // Mostrar loading mientras cargamos la configuración
   if (isLoading || isUnlocked === null || showOnboarding === null) {
+    const theme = getTheme(isDark);
+    
     return (
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: isDark ? '#121212' : '#F5F5F5'
-      }}>
-        <Text style={{ color: isDark ? '#FFFFFF' : '#000000', fontSize: 16 }}>Cargando FinanzaLite...</Text>
-      </View>
+      <LinearGradient
+        colors={Colors.gradients.primary}
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Animatable.View 
+          animation="fadeIn" 
+          duration={1000}
+          style={{ alignItems: 'center' }}
+        >
+          <Animatable.Text 
+            animation="pulse" 
+            iterationCount="infinite" 
+            style={{ 
+              color: '#FFFFFF', 
+              fontSize: 20, 
+              fontWeight: 'bold',
+              marginBottom: 16
+            }}
+          >
+            FinanzaLite
+          </Animatable.Text>
+          <Text style={{ color: '#FFFFFF', fontSize: 14, opacity: 0.8 }}>by L.A.N.G.</Text>
+        </Animatable.View>
+      </LinearGradient>
     );
   }
 
